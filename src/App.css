@@ -58,3 +58,12 @@
   align-items: center;
   margin-top: 40px;
 }
+
+.show-more{
+  margin-top: 0px !important;
+}
+
+.search-crypto{
+  margin: 20px auto 30px;
+  width: 20%;
+}
