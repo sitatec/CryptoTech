@@ -36,7 +36,7 @@ const Navbar: FC = () => {
           </Link>
         </Typography.Title>
       </div>
-      <Menu theme="dark" items={menuItems} />
+      <Menu theme="dark" items={menuItems} defaultSelectedKeys={['home']}/>
     </div>
   );
 };
