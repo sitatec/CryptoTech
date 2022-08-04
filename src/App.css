@@ -5,7 +5,7 @@
 }
 
 .navbar {
-  flex: 0.1;
+  flex: 0.15;
   background-color: rgb(0, 21, 41);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .main {
-  flex: 0.9;
+  flex: 0.85;
   width: 100%;
 }
 
@@ -45,7 +45,7 @@
   flex-direction: column;
   padding: 20px;
   align-items: center;
-} 
+}
 
 .footer h5 {
   color: white;
@@ -59,11 +59,33 @@
   margin-top: 40px;
 }
 
-.show-more{
+.show-more {
   margin-top: 0px !important;
 }
 
-.search-crypto{
+.search-crypto {
   margin: 20px auto 30px;
   width: 20%;
+}
+
+.news-card-header {
+  display: flex;
+}
+
+.news-card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.news-provider-name{
+  margin-left: 8px;
+}
+
+.news-provider-info-container{
+  flex: 0.8
+}
+
+.news-category-selector{
+  width: 200px;
 }

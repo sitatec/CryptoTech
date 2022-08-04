@@ -18,12 +18,13 @@ const getRequestOptions = (url: string): FetchArgs => ({
   headers: headers,
 });
 
-export const CryptoService = createApi({
+const cryptoService = createApi({
+  reducerPath: "cryptoService",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     getCryptoStats: builder.query<CryptoStats, void>({
       query: () => getRequestOptions("/global/"),
-      transformResponse: (rawResult: CryptoStats[], meta) => {
+      transformResponse: (rawResult: CryptoStats[]) => {
         return rawResult[0];
       },
     }),
@@ -32,7 +33,7 @@ export const CryptoService = createApi({
         getRequestOptions(
           itemsCount ? `/tickers/?limit=${itemsCount}` : "/tickers/"
         ),
-      transformResponse: (rawResult:{ data: Cryptocurrency[]}, meta) => {
+      transformResponse: (rawResult:{ data: Cryptocurrency[]}) => {
         return rawResult.data;
       }
     }),
@@ -40,6 +41,6 @@ export const CryptoService = createApi({
 });
 
 export const { useGetCryptoStatsQuery, useGetCryptocurrenciesQuery } =
-  CryptoService;
+  cryptoService;
 
-export default CryptoService;
+export default cryptoService;

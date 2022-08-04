@@ -1,15 +1,12 @@
-import { Card, Col, Image, Input, Row } from "antd";
+import { Card, Col, Input, Row } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cryptocurrency } from "../models/Cryptocurrency";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
+import { SimplifiableComponentPropsType } from "./commonPropsTypes";
 
-type CryptocurrenciesPropsType = {
-  simplified?: boolean;
-};
-
-const Cryptocurrencies = ({ simplified }: CryptocurrenciesPropsType) => {
+const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   const itemsCount = simplified ? 10 : 100;
   const { data, isLoading } = useGetCryptocurrenciesQuery(itemsCount);
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,7 +42,8 @@ const Cryptocurrencies = ({ simplified }: CryptocurrenciesPropsType) => {
               <Card
                 title={`${cryptocurrency.rank}. ${cryptocurrency.name}`}
                 extra={
-                  <Image
+                  <img
+                  alt={cryptocurrency.name}
                     src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/32/icon/${cryptocurrency.symbol.toLowerCase()}.png`}
                   />
                 }

@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import CryptoService from "../services/cryptoService";
+import cryptoNewsService from "../services/cryptoNewsService";
+import cryptoService from "../services/cryptoService";
 
 export default configureStore({
   reducer: {
-    [CryptoService.reducerPath]: CryptoService.reducer,
+    [cryptoService.reducerPath]: cryptoService.reducer,
+    [cryptoNewsService.reducerPath]: cryptoNewsService.reducer,
   },
 });
