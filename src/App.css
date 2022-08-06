@@ -1,8 +1,9 @@
 @import "~antd/dist/antd.css";
 
 :root {
-  --bgSecondary: #f9f9f9;
-  --pink: #0071bd;
+  --bgSecondary: #f8f9fc;
+  --lightBlue: #0071bd;
+  --darkBlue: rgb(0, 21, 41);
   --border: #d9d9d9;
 }
 
@@ -12,12 +13,12 @@
 
 .navbar {
   flex: 0.15;
-  background-color: rgb(0, 21, 41);
+  background-color: var(--darkBlue);
 }
 
 .nav-container {
   height: 100vh;
-  background-color: rgb(0, 21, 41);
+  background-color: var(--darkBlue);
 }
 
 .logo-container {
@@ -127,7 +128,7 @@
 
 .coin-heading-container .coin-name {
   font-weight: 900;
-  color: var(--pink);
+  color: var(--lightBlue);
 }
 
 .coin-heading-container p {
@@ -170,13 +171,13 @@
   font-weight: 700;
   font-size: 1.4rem;
   margin-top: 20px;
-  color: var(--pink);
+  color: var(--lightBlue);
 }
 
 .coin-details-heading {
   font-weight: 700 !important;
   margin-top: 20px !important;
-  color: var(--pink) !important;
+  color: var(--lightBlue) !important;
 }
 
 .coin-stats {
@@ -212,7 +213,7 @@
 
 .coin-desc-link h2 {
   font-weight: 700;
-  color: var(--pink);
+  color: var(--lightBlue);
 }
 
 .coin-desc-link p {
@@ -221,7 +222,7 @@
 }
 
 .coin-desc-link a {
-  color: var(--pink);
+  color: var(--lightBlue);
 }
 
 .coin-desc-link h3 {
@@ -251,7 +252,7 @@
 }
 
 .coin-link a {
-  color: var(--pink);
+  color: var(--lightBlue);
   font-weight: 700;
   font-size: 1rem;
 }
@@ -259,6 +260,29 @@
 .coin-link:hover,
 .coin-stats:hover {
   background-color: var(--bgSecondary);
+}
+
+.exchanges-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.exchange-search-bar {
+  width: 500px;
+  padding: 6px 20px;
+  border-radius: 50px;
+  font-size: 1.5em;
+  color: rgba(2, 2, 77, 0.678);
+}
+
+.flex{
+  display: flex;
+}
+
+.exchange-img{
+  margin: 0 16px;
 }
 
 .menu-control-container {
@@ -337,6 +361,11 @@
   .show-more {
     font-size: 1.3rem !important;
   }
+
+  .exchange-search-bar {
+    width: 350px;
+    padding: 3px 13px;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -350,4 +379,3 @@
     margin-top: 20px;
   }
 }
-

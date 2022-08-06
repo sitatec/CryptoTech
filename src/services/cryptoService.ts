@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { Cryptocurrency } from "../models/Cryptocurrency";
 import CryptocurrencyPriceHistory from "../models/CryptocurrencyPriceHistory";
+import { CryptoExchange } from "../models/CryptoExchange";
 import CryptoStats from "../models/CryptoStats";
 
 const BASE_URL = "https://coinranking1.p.rapidapi.com";
@@ -56,6 +57,19 @@ const cryptoService = createApi({
         return rawResult.data;
       },
     }),
+    getBitcoinExchanges: build.query<CryptoExchange[], string>({
+      query: (searchTerm) =>
+        getRequestOptions(`/coin/Qwsogvtv82FCd/exchanges?search=${searchTerm}&limit=100`),
+      transformResponse: (rawResult: {
+        data: { exchanges: CryptoExchange[] };
+      }) => {
+        rawResult.data.exchanges.forEach(exchange => {
+          exchange.volume24h = Number((exchange as any)["24hVolume"]);
+          exchange.price = Number(exchange.price)
+        })
+        return rawResult.data.exchanges;
+      },
+    }),
   }),
 });
 
@@ -64,6 +78,7 @@ export const {
   useGetCryptocurrenciesQuery,
   useGetCryptoDetailsQuery,
   useGetCryptoPriceHistoryQuery,
+  useGetBitcoinExchangesQuery,
 } = cryptoService;
 
 export default cryptoService;

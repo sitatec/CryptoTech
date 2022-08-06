@@ -34,7 +34,11 @@ const Navbar: FC = () => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
     window.addEventListener("resize", handleResize);
-    const closeMobileMenu = () => setActiveMenu(false);
+    const closeMobileMenu = () : void => {
+      if (screenSize <= 800) {
+        setActiveMenu(false);
+      }
+    };
     window.addEventListener("click", closeMobileMenu);
 
     handleResize();
@@ -43,7 +47,7 @@ const Navbar: FC = () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("click", closeMobileMenu);
     };
-  }, []);
+  }, [screenSize]);
 
   useEffect(() => {
     if (screenSize <= 800) {

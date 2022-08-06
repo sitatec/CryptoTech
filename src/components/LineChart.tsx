@@ -23,6 +23,11 @@ ChartJS.register(
   Legend
 );
 
+interface LineChartProps {
+  coinHistory: CryptocurrencyPriceHistory;
+  currentPrice: string;
+  coinName: string;
+}
 const { Title } = Typography;
 
 const LineChart: FC<LineChartProps> = ({
@@ -77,10 +82,5 @@ const LineChart: FC<LineChartProps> = ({
   );
 };
 
-interface LineChartProps {
-  coinHistory: CryptocurrencyPriceHistory;
-  currentPrice: string;
-  coinName: string;
-}
 
 export default LineChart;
