@@ -1,9 +1,9 @@
 @import "~antd/dist/antd.css";
 
-:root{
- --bgSecondary: #F9F9F9;
- --pink: #0071bd;
- --border: #d9d9d9;
+:root {
+  --bgSecondary: #f9f9f9;
+  --pink: #0071bd;
+  --border: #d9d9d9;
 }
 
 .app {
@@ -136,25 +136,25 @@
   margin-bottom: 20px;
 }
 
-.chart-header{
+.chart-header {
   display: flex;
   justify-content: space-between;
   gap: 50px;
   color: #0071bd;
 }
-.chart-title{
+.chart-title {
   color: #0071bd !important;
 }
-.price-container{
+.price-container {
   display: flex !important;
   gap: 20px !important;
   align-items: center !important;
   flex-wrap: wrap !important;
 }
-.price-change{
+.price-change {
   font-weight: 900 !important;
 }
-.current-price{
+.current-price {
   margin-top: 0px !important;
   font-weight: 900 !important;
 }
@@ -260,3 +260,94 @@
 .coin-stats:hover {
   background-color: var(--bgSecondary);
 }
+
+.menu-control-container {
+  display: none !important;
+  position: absolute !important;
+  right: 10px !important;
+  top: 25px !important;
+  font-size: 1.2rem !important;
+  background-color: var(--bgSecondary) !important;
+  border: none !important;
+}
+
+@media screen and (max-width: 1300px) {
+  .main {
+    margin-left: 50px;
+  }
+}
+
+@media screen and (max-width: 1170px) {
+  .main {
+    margin-left: 50px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main {
+    margin-left: 100px;
+  }
+  .stats-container {
+    flex-direction: column;
+  }
+  .coin-desc-link {
+    flex-direction: column;
+  }
+  .stats-container h2 {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .app {
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .navbar {
+    flex: 1;
+  }
+
+  .main {
+    flex: 1;
+    margin-top: 90px;
+    margin-left: 0px;
+    margin-right: 10px;
+  }
+
+  .nav-container {
+    height: 8vh;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--bgSecondary);
+  }
+
+  .menu-control-container {
+    display: block !important;
+  }
+
+  .ant-menu {
+    position: absolute;
+    right: 0px;
+  }
+  .home-title {
+    font-size: 1.4rem !important;
+  }
+  .show-more {
+    font-size: 1.3rem !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .coin-links {
+    padding: 0px;
+  }
+  .coin-detail-container {
+    margin: 0;
+  }
+  .heading {
+    margin-top: 20px;
+  }
+}
+
