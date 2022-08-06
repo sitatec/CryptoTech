@@ -21,23 +21,23 @@ const HomePage = () => {
         <Col span={12}>
           <Statistic
             title="Total Cryptocurrencies"
-            value={millify(stats!.coins_count)}
+            value={millify(stats!.totalCoins)}
           />
         </Col>
         <Col span={12}>
-          <Statistic title="MCAP Change" value={millify(stats!.mcap_change)} />
+          <Statistic title="Total Market CAP" value={millify(stats!.totalMarketCap)} />
         </Col>
         <Col span={12}>
           <Statistic
-            title="Active Markets"
-            value={millify(stats!.active_markets)}
+            title="Total Markets"
+            value={millify(stats!.totalMarkets)}
           />
         </Col>
         <Col span={12}>
-          <Statistic title="Total MCAP" value={millify(stats!.total_mcap)} />
+          <Statistic title="Total Exchanges" value={millify(stats!.totalExchanges)} />
         </Col>
         <Col span={12}>
-          <Statistic title="Total Volume" value={millify(stats!.total_volume)} />
+          <Statistic title="Total 24h Volume" value={millify(stats!.total24hVolume)} />
         </Col>
       </Row>
       <div className="home-heading-container">

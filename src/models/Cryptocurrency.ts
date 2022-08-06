@@ -1,18 +1,38 @@
 export interface Cryptocurrency {
-  id: string;
+  uuid: string;
   symbol: string;
   name: string;
-  nameid: string;
+  description: string;
+  color: string;
+  iconUrl: string;
+  websiteUrl: string;
+  links: Link[];
+  supply: Supply;
+  volume24h: number;
+  marketCap: number;
+  price: number;
+  btcPrice: string;
+  change: number;
   rank: number;
-  price_usd: string;
-  percent_change_24h: string;
-  percent_change_1h: string;
-  percent_change_7d: string;
-  price_btc: string;
-  market_cap_usd: string;
-  volume24: number;
-  volume24a: number;
-  csupply: string;
-  tsupply: string;
-  msupply: string;
+  numberOfMarkets: number;
+  numberOfExchanges: number;
+  sparkline: any[];
+  allTimeHigh: PriceByPeriod;
+}
+
+export interface Link {
+  name: string;
+  url: string;
+  type: string;
+}
+
+export interface Supply {
+  confirmed: boolean;
+  circulating: number;
+  total: number;
+}
+
+export interface PriceByPeriod {
+  price: number;
+  timestamp: number;
 }

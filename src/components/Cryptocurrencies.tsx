@@ -1,4 +1,5 @@
-import { Card, Col, Input, Row } from "antd";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import { Card, Col, Input, Row, Statistic, Typography } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -37,26 +38,49 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
       )}
       <Row gutter={[24, 24]}>
         {filteredCurrencies?.map((cryptocurrency) => (
-          <Col xs={24} sm={12} lg={6} key={cryptocurrency.id}>
-            <Link to={`/cryptocurrencies/${cryptocurrency.id}`}>
+          <Col xs={24} sm={12} lg={6} key={cryptocurrency.uuid}>
+            <Link to={`/cryptocurrencies/${cryptocurrency.uuid}`}>
               <Card
                 title={`${cryptocurrency.rank}. ${cryptocurrency.name}`}
                 extra={
                   <img
-                  alt={cryptocurrency.name}
-                    src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/32/icon/${cryptocurrency.symbol.toLowerCase()}.png`}
+                    alt={cryptocurrency.name}
+                    src={cryptocurrency.iconUrl}
+                    width="40"
                   />
                 }
                 hoverable
               >
-                <p>Price: {millify(Number(cryptocurrency.price_usd))}</p>
-                <p>
-                  Market Cap: {millify(Number(cryptocurrency.market_cap_usd))}
-                </p>
-                <p>
-                  Daily Change:{" "}
-                  {millify(Number(cryptocurrency.percent_change_24h))}
-                </p>
+                <div className="crypto-card-body">
+                  <div className="crypto-card-stats">
+                    <p>Price: {millify(Number(cryptocurrency.price))}</p>
+                    <p>
+                      Market Cap: {millify(Number(cryptocurrency.marketCap))}
+                    </p>
+                    <p>
+                      Daily Volume: {millify(Number(cryptocurrency.volume24h))}
+                    </p>
+                  </div>
+                  <div className="crypto-card-daily-change">
+                    <Statistic
+                      value={cryptocurrency.change}
+                      suffix="%"
+                      precision={2}
+                      prefix={
+                        cryptocurrency.change > 0 ? (
+                          <ArrowUpOutlined />
+                        ) : (
+                          <ArrowDownOutlined />
+                        )
+                      }
+                      valueStyle={{
+                        color:
+                          cryptocurrency.change > 0 ? "#00b053" : "#eb0a25",
+                        fontSize: 17,
+                      }}
+                    />
+                  </div>
+                </div>
               </Card>
             </Link>
           </Col>

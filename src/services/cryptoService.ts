@@ -4,13 +4,14 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { Cryptocurrency } from "../models/Cryptocurrency";
+import CryptocurrencyPriceHistory from "../models/CryptocurrencyPriceHistory";
 import CryptoStats from "../models/CryptoStats";
 
-const BASE_URL = "https://coinlore-cryptocurrency.p.rapidapi.com/api";
+const BASE_URL = "https://coinranking1.p.rapidapi.com";
 
 const headers = {
   "X-RapidAPI-Key": "1c6efef265mshefa7a7d1d4b8a40p1394a8jsn9e2fce397884",
-  "X-RapidAPI-Host": "coinlore-cryptocurrency.p.rapidapi.com",
+  "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
 };
 
 const getRequestOptions = (url: string): FetchArgs => ({
@@ -21,26 +22,48 @@ const getRequestOptions = (url: string): FetchArgs => ({
 const cryptoService = createApi({
   reducerPath: "cryptoService",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  endpoints: (builder) => ({
-    getCryptoStats: builder.query<CryptoStats, void>({
-      query: () => getRequestOptions("/global/"),
-      transformResponse: (rawResult: CryptoStats[]) => {
-        return rawResult[0];
+  endpoints: (build) => ({
+    getCryptoStats: build.query<CryptoStats, void>({
+      query: () => getRequestOptions("/stats"),
+      transformResponse: (rawResult: { data: CryptoStats }) => {
+        return rawResult.data;
       },
     }),
-    getCryptocurrencies: builder.query<Cryptocurrency[], number | undefined>({
+    getCryptocurrencies: build.query<Cryptocurrency[], number | undefined>({
       query: (itemsCount) =>
-        getRequestOptions(
-          itemsCount ? `/tickers/?limit=${itemsCount}` : "/tickers/"
-        ),
-      transformResponse: (rawResult:{ data: Cryptocurrency[]}) => {
+        getRequestOptions(itemsCount ? `/coins?limit=${itemsCount}` : "/coins"),
+      transformResponse: (rawResult: { data: { coins: Cryptocurrency[] } }) => {
+        rawResult.data.coins.forEach((coin) => {
+          coin.volume24h = (coin as any)["24hVolume"];
+          coin.change = Number(coin.change);
+        });
+        return rawResult.data.coins;
+      },
+    }),
+    getCryptoDetails: build.query<Cryptocurrency, string>({
+      query: (cryptoId) => getRequestOptions(`/coin/${cryptoId}`),
+      transformResponse: (rawResult: { data: { coin: Cryptocurrency } }) => {
+        return rawResult.data.coin;
+      },
+    }),
+    getCryptoPriceHistory: build.query<
+      CryptocurrencyPriceHistory,
+      { cryptoId: string; timePeriod: string }
+    >({
+      query: ({ cryptoId, timePeriod }) =>
+        getRequestOptions(`/coin/${cryptoId}/history?timePeriod=${timePeriod}`),
+      transformResponse: (rawResult: { data: CryptocurrencyPriceHistory }) => {
         return rawResult.data;
-      }
+      },
     }),
   }),
 });
 
-export const { useGetCryptoStatsQuery, useGetCryptocurrenciesQuery } =
-  cryptoService;
+export const {
+  useGetCryptoStatsQuery,
+  useGetCryptocurrenciesQuery,
+  useGetCryptoDetailsQuery,
+  useGetCryptoPriceHistoryQuery,
+} = cryptoService;
 
 export default cryptoService;
