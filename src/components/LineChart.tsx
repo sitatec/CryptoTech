@@ -27,6 +27,8 @@ interface LineChartProps {
   coinHistory: CryptocurrencyPriceHistory;
   currentPrice: string;
   coinName: string;
+  periodFormat: "time" | "date";
+  samplesCount: number;
 }
 const { Title } = Typography;
 
@@ -34,15 +36,23 @@ const LineChart: FC<LineChartProps> = ({
   coinHistory,
   currentPrice,
   coinName,
+  periodFormat,
+  samplesCount,
 }) => {
   const coinPrice = [];
   const coinTimestamp = [];
 
-  for (let i = 0; i < coinHistory.history.length; i += 1) {
+  for (let i = 0; i < Math.min(coinHistory.history.length, samplesCount); i += 1) {
     coinPrice.push(coinHistory.history[i].price);
-    coinTimestamp.push(
-      new Date(coinHistory.history[i].timestamp).toLocaleDateString()
-    );
+    const date = new Date(coinHistory.history[i].timestamp * 1000);
+    let formatedDate;
+
+    if (periodFormat === "time") {
+      formatedDate = date.toLocaleTimeString([],{timeStyle: 'short'});
+    } else {
+      formatedDate = date.toLocaleDateString();
+    }
+    coinTimestamp.push(formatedDate);
   }
 
   const data = {
@@ -81,6 +91,5 @@ const LineChart: FC<LineChartProps> = ({
     </>
   );
 };
-
 
 export default LineChart;

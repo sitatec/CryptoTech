@@ -9,7 +9,7 @@ import {
   ThunderboltOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
-import { Col, Row, Select, Typography } from "antd";
+import { Col, InputNumber, Row, Select, Typography } from "antd";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
 import { useState } from "react";
@@ -26,17 +26,20 @@ const Option = Select.Option;
 const CryptocurrencyDetails = () => {
   const { cryptocurrencyId } = useParams();
   const { data, isLoading } = useGetCryptoDetailsQuery(cryptocurrencyId!);
-  const cryptocurrency = data!;
   const [timePeriod, setTimePeriod] = useState("7d");
-  const { data: coinHistory, isLoading: isLoadingPriceHistory } = useGetCryptoPriceHistoryQuery({
-    cryptoId: cryptocurrencyId!,
-    timePeriod,
-  });
+  const { data: coinHistory, isLoading: isLoadingPriceHistory } =
+    useGetCryptoPriceHistoryQuery({
+      cryptoId: cryptocurrencyId!,
+      timePeriod,
+    });
+  const [samplesCount, setSamplesCount] = useState(20);
+
   const timePeriods = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
+  let cryptocurrency = data!;
 
   const stats = [
     {
@@ -119,11 +122,26 @@ const CryptocurrencyDetails = () => {
           <Option key={date}>{date}</Option>
         ))}
       </Select>
-      {isLoadingPriceHistory ? 'Loading...' : <LineChart
-        coinHistory={coinHistory!}
-        currentPrice={millify(cryptocurrency.price)}
-        coinName={cryptocurrency.name}
-      />}
+      <InputNumber
+        style={{ marginLeft: "20px" }}
+        min={5}
+        max={100}
+        defaultValue={samplesCount}
+        onChange={setSamplesCount}
+      />
+      {isLoadingPriceHistory ? (
+        "Loading..."
+      ) : (
+        <LineChart
+          coinHistory={coinHistory!}
+          currentPrice={millify(cryptocurrency.price)}
+          coinName={cryptocurrency.name}
+          samplesCount={samplesCount}
+          periodFormat={
+            timePeriod === "24h" || timePeriod === "3h" ? "time" : "date"
+          }
+        />
+      )}
       <Col className="stats-container">
         <Col className="coin-value-statistics">
           <Col className="coin-value-statistics-heading">

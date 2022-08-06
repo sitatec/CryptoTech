@@ -3,7 +3,7 @@ import {
   MinusCircleOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Input, Space, Table, Typography } from "antd";
+import { Input, Table, Typography } from "antd";
 import { ColumnType } from "antd/lib/table/interface";
 import millify from "millify";
 import { FC, useState } from "react";
@@ -81,10 +81,9 @@ const Exchanges: FC = () => {
   }));
 
   return (
-    <><div className="exchanges-page-container">
-      <Typography.Title level={2}>Exchange listings</Typography.Title>
+    <><div className="search-container">
       <Input
-        className="exchange-search-bar"
+        className="search-bar"
         suffix={<SearchOutlined />}
         placeholder="Find an Exchange"
         size="large"

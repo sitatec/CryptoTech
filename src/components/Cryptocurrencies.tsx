@@ -1,5 +1,5 @@
-import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { Card, Col, Input, Row, Statistic, Typography } from "antd";
+import { ArrowDownOutlined, ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
+import { Card, Col, Input, Row, Statistic } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
 import { SimplifiableComponentPropsType } from "./commonPropsTypes";
 
 const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
-  const itemsCount = simplified ? 10 : 100;
+  const itemsCount = simplified ? 9 : 100;
   const { data, isLoading } = useGetCryptocurrenciesQuery(itemsCount);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCurrencies, setFilteredCurrencies] = useState<
@@ -29,16 +29,19 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   return (
     <>
       {!simplified && (
-        <div className="search-crypto">
-          <Input
-            placeholder="Search Cryptocurrency"
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="search-container">
+        <Input
+          className="search-bar"
+          suffix={<SearchOutlined />}
+          placeholder="Search Cryptocurrency"
+          size="large"
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
         </div>
       )}
       <Row gutter={[24, 24]}>
         {filteredCurrencies?.map((cryptocurrency) => (
-          <Col xs={24} sm={12} lg={6} key={cryptocurrency.uuid}>
+          <Col xs={24} sm={12} lg={8} key={cryptocurrency.uuid}>
             <Link to={`/cryptocurrencies/${cryptocurrency.uuid}`}>
               <Card
                 title={`${cryptocurrency.rank}. ${cryptocurrency.name}`}
@@ -47,6 +50,7 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
                     alt={cryptocurrency.name}
                     src={cryptocurrency.iconUrl}
                     width="40"
+                    height="40"
                   />
                 }
                 hoverable

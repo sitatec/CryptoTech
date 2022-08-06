@@ -9,42 +9,47 @@
 
 .app {
   display: flex;
+  flex-direction: column;
 }
 
 .navbar {
-  flex: 0.15;
   background-color: var(--darkBlue);
 }
 
-.nav-container {
-  height: 100vh;
-  background-color: var(--darkBlue);
-}
-
-.logo-container {
-  background-color: #001529;
+.navbar-content {
   display: flex;
-  padding: 20px 20px 3px 12px;
-  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  margin: auto;
+}
+
+.main-container{
+  width: 60%;
+  margin: auto;
+  padding-bottom: 50px;
+}
+
+.navbar-menu {
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .logo a {
   color: white;
 }
 
+.logo :first-child {
+  display: flex;
+  align-items: center;
+}
+
 .logo-text {
   margin-left: 12px;
+  font-size: 1.9em;
+  font-weight: bold;
 }
 
-.main {
-  flex: 0.85;
-  width: 100%;
-}
-
-.routes {
-  padding: 20px;
-}
 
 .footer {
   background-color: #001529;
@@ -57,6 +62,7 @@
 .footer h5 {
   color: white;
   text-align: center;
+  margin-top: 30px;
 }
 
 .home-heading-container {
@@ -70,13 +76,9 @@
   margin-top: 0px !important;
 }
 
-.search-crypto {
-  margin: 20px auto 30px;
-  width: 20%;
-}
-
 .news-card-header {
   display: flex;
+  justify-content: space-between;
 }
 
 .news-card-footer {
@@ -94,7 +96,8 @@
 }
 
 .news-category-selector {
-  width: 200px;
+  width: 300px;
+  margin-top: 30px;
 }
 
 .crypto-card-body {
@@ -142,6 +145,7 @@
   justify-content: space-between;
   gap: 50px;
   color: #0071bd;
+  margin-top: 20px;
 }
 .chart-title {
   color: #0071bd !important;
@@ -165,6 +169,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  margin-top: 30px;
 }
 
 .stats-container h2 {
@@ -269,12 +274,19 @@
   margin-bottom: 50px;
 }
 
-.exchange-search-bar {
+.search-bar {
   width: 500px;
   padding: 6px 20px;
   border-radius: 50px;
   font-size: 1.5em;
   color: rgba(2, 2, 77, 0.678);
+}
+
+.search-container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 30px;
 }
 
 .flex{
@@ -362,7 +374,7 @@
     font-size: 1.3rem !important;
   }
 
-  .exchange-search-bar {
+  .search-bar {
     width: 350px;
     padding: 3px 13px;
   }

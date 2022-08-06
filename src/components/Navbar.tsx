@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Avatar, Button, Menu, Typography } from "antd";
+import { Avatar, Button, Menu } from "antd";
 import { Link } from "react-router-dom";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import CryptoIcon from "../images/cryptocurrency.png";
@@ -34,7 +34,7 @@ const Navbar: FC = () => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
     window.addEventListener("resize", handleResize);
-    const closeMobileMenu = () : void => {
+    const closeMobileMenu = (): void => {
       if (screenSize <= 800) {
         setActiveMenu(false);
       }
@@ -58,14 +58,14 @@ const Navbar: FC = () => {
   }, [screenSize]);
 
   return (
-    <div className="nav-container">
-      <div className="logo-container">
-        <Typography.Title level={2} className="logo">
+    <div className="navbar">
+      <div className="navbar-content">
+        <div className="logo">
           <Link to="/">
-            <Avatar src={CryptoIcon} size="large" />
-            <span className="logo-text">Crypto</span>
+            <Avatar src={CryptoIcon} size="default" />
+            <span className="logo-text">CryptoTech</span>
           </Link>
-        </Typography.Title>
+        </div>
         <Button
           className="menu-control-container"
           onClick={(e) => {
@@ -75,10 +75,16 @@ const Navbar: FC = () => {
         >
           <MenuOutlined />
         </Button>
+        {activeMenu && (
+          <Menu
+            className="navbar-menu"
+            theme="dark"
+            items={menuItems}
+            defaultSelectedKeys={["home"]}
+            mode={screenSize <= 800 ? "vertical" : "horizontal"}
+          />
+        )}
       </div>
-      {activeMenu && (
-        <Menu theme="dark" items={menuItems} defaultSelectedKeys={["home"]} />
-      )}
     </div>
   );
 };

@@ -16,33 +16,33 @@ const HomePage = () => {
 
   return (
     <>
-      <Title>Global Crypto Stats</Title>
+      <Title level={2} style={{marginTop: "15px"}}>Global Crypto Stats</Title>
       <Row gutter={[0, 20]}>
-        <Col span={12}>
+        <Col xs={12} md={8} lg={4}>
           <Statistic
             title="Total Cryptocurrencies"
             value={millify(stats!.totalCoins)}
           />
         </Col>
-        <Col span={12}>
+        <Col  xs={12} md={8} lg={4}>
           <Statistic title="Total Market CAP" value={millify(stats!.totalMarketCap)} />
         </Col>
-        <Col span={12}>
+        <Col  xs={12} md={8} lg={4}>
           <Statistic
             title="Total Markets"
             value={millify(stats!.totalMarkets)}
           />
         </Col>
-        <Col span={12}>
+        <Col  xs={12} md={8} lg={4}>
           <Statistic title="Total Exchanges" value={millify(stats!.totalExchanges)} />
         </Col>
-        <Col span={12}>
+        <Col  xs={12} md={8} lg={4}>
           <Statistic title="Total 24h Volume" value={millify(stats!.total24hVolume)} />
         </Col>
       </Row>
       <div className="home-heading-container">
         <Title level={2} className="home-title">
-          Top 10 Cryptocurrencies
+          Top Cryptocurrencies
         </Title>
         <Title level={4} className="show-more">
           <Link to="/cryptocurrencies">Show More</Link>
