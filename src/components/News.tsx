@@ -5,6 +5,7 @@ import newsImage from "../images/news.png";
 import { FC, useState } from "react";
 import moment from "moment";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
+import Loader from "./Loader";
 
 const { Title, Text } = Typography;
 const Option = Select.Option;
@@ -19,7 +20,7 @@ const News: FC<SimplifiableComponentPropsType> = ({ simplified }) => {
   const { data: cryptosList } = useGetCryptocurrenciesQuery(100);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader/>
   }
 
   return (

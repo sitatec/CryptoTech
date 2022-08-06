@@ -3,6 +3,7 @@ import millify from "millify";
 import { Link } from "react-router-dom";
 import { useGetCryptoStatsQuery } from "../services/cryptoService";
 import { Cryptocurrencies, News } from "./";
+import Loader from "./Loader";
 
 const Title = Typography.Title;
 
@@ -10,7 +11,7 @@ const HomePage = () => {
   const { data: stats, isLoading } = useGetCryptoStatsQuery();
   
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader/>
   }
 
 

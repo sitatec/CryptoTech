@@ -8,6 +8,7 @@ import { ColumnType } from "antd/lib/table/interface";
 import millify from "millify";
 import { FC, useState } from "react";
 import { useGetBitcoinExchangesQuery } from "../services/cryptoService";
+import Loader from "./Loader";
 
 interface ExchangesTableDataType {
   key: string;
@@ -25,7 +26,7 @@ const Exchanges: FC = () => {
     useGetBitcoinExchangesQuery(searchTerm);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader/>;
   }
 
   const tableColumns: ColumnType<ExchangesTableDataType>[] = [

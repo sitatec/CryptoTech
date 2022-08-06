@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Cryptocurrency } from "../models/Cryptocurrency";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
 import { SimplifiableComponentPropsType } from "./commonPropsTypes";
+import Loader from "./Loader";
 
 const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   const itemsCount = simplified ? 9 : 100;
@@ -23,7 +24,7 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   }, [searchQuery, data]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader/>
   }
 
   return (
