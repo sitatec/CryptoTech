@@ -1,48 +1,56 @@
-import { ArrowDownOutlined, ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
-import { Card, Col, Input, Row, Statistic, Typography } from "antd";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { Card, Col, Input, Pagination, Row, Statistic } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Cryptocurrency } from "../models/Cryptocurrency";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
 import { SimplifiableComponentPropsType } from "./commonPropsTypes";
 import Loader from "./Loader";
 
 const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
-  const itemsCount = simplified ? 9 : 100;
-  const { data, isLoading } = useGetCryptocurrenciesQuery(itemsCount);
+  const [paginationData, setPaginationData] = useState({
+    itemsCount: simplified ? 9 : 15,
+    currentPage: 1,
+  });
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCurrencies, setFilteredCurrencies] = useState<
-    Cryptocurrency[]
-  >([]);
+  const { data, isLoading } = useGetCryptocurrenciesQuery({
+    limit: paginationData.itemsCount,
+    offset: (paginationData.currentPage -1) * paginationData.itemsCount,
+    search: searchQuery,
+  });
 
-  useEffect(() => {
-    const filteredCurrencies = data?.filter((crypto) =>
-      crypto.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredCurrencies(filteredCurrencies!);
-  }, [searchQuery, data]);
+  useEffect(()=>{
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [paginationData]);
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (
     <>
       {!simplified && (
         <div className="search-container">
-        <Input
-          className="search-bar"
-          suffix={<SearchOutlined />}
-          placeholder="Search Cryptocurrency"
-          size="large"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+          <Input
+            className="search-bar"
+            suffix={<SearchOutlined />}
+            placeholder="Search Cryptocurrency"
+            size="large"
+            onChange={(e) => {
+              if(paginationData.currentPage > 1){
+                setPaginationData({itemsCount: paginationData.itemsCount, currentPage: 1})
+              }
+              setSearchQuery(e.target.value);
+            }}
+          />
         </div>
       )}
-      <Typography.Title level={2}>Popular Cryptocurrencies</Typography.Title>
       <Row gutter={[24, 24]}>
-        {filteredCurrencies?.map((cryptocurrency) => (
+        {data?.coins?.map((cryptocurrency) => (
           <Col xs={24} sm={12} lg={8} key={cryptocurrency.uuid}>
             <Link to={`/cryptocurrencies/${cryptocurrency.uuid}`}>
               <Card
@@ -92,6 +100,17 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
           </Col>
         ))}
       </Row>
+      {!simplified && (
+        <Pagination
+          style={{ float: "right", marginTop: "25px" }}
+          current={paginationData.currentPage}
+          total={data?.stats.totalCoins}
+          pageSize={paginationData.itemsCount}
+          onChange={(page: number, pageSize: number) => {
+            setPaginationData({ itemsCount: pageSize, currentPage: page });
+          }}
+        />
+      )}
     </>
   );
 };

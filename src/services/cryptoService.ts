@@ -30,15 +30,22 @@ const cryptoService = createApi({
         return rawResult.data;
       },
     }),
-    getCryptocurrencies: build.query<Cryptocurrency[], number | undefined>({
-      query: (itemsCount) =>
-        getRequestOptions(itemsCount ? `/coins?limit=${itemsCount}` : "/coins"),
-      transformResponse: (rawResult: { data: { coins: Cryptocurrency[] } }) => {
+    getCryptocurrencies: build.query<
+      CryptoCurrenciesListResponse,
+      { limit: number; offset?: number; search?: string}
+    >({
+      query: ({ limit, offset = 0, search = "" }) =>
+        getRequestOptions(
+          `/coins?limit=${limit}&offset=${offset}&search=${search}`
+        ),
+      transformResponse: (rawResult: {
+        data: CryptoCurrenciesListResponse;
+      }) => {
         rawResult.data.coins.forEach((coin) => {
           coin.volume24h = (coin as any)["24hVolume"];
           coin.change = Number(coin.change);
         });
-        return rawResult.data.coins;
+        return rawResult.data;
       },
     }),
     getCryptoDetails: build.query<Cryptocurrency, string>({
@@ -59,19 +66,26 @@ const cryptoService = createApi({
     }),
     getBitcoinExchanges: build.query<CryptoExchange[], string>({
       query: (searchTerm) =>
-        getRequestOptions(`/coin/Qwsogvtv82FCd/exchanges?search=${searchTerm}&limit=100`),
+        getRequestOptions(
+          `/coin/Qwsogvtv82FCd/exchanges?search=${searchTerm}&limit=100`
+        ),
       transformResponse: (rawResult: {
         data: { exchanges: CryptoExchange[] };
       }) => {
-        rawResult.data.exchanges.forEach(exchange => {
+        rawResult.data.exchanges.forEach((exchange) => {
           exchange.volume24h = Number((exchange as any)["24hVolume"]);
-          exchange.price = Number(exchange.price)
-        })
+          exchange.price = Number(exchange.price);
+        });
         return rawResult.data.exchanges;
       },
     }),
   }),
 });
+
+interface CryptoCurrenciesListResponse {
+  coins: Cryptocurrency[];
+  stats: CryptoStats;
+}
 
 export const {
   useGetCryptoStatsQuery,

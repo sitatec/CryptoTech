@@ -33,7 +33,7 @@ const App: FC = () => {
         </Content>
         <Footer className="footer">
           <Typography.Title level={5}>
-            Crypto <br />
+            CryptoTech <br />
             All rights reserved
           </Typography.Title>
           <Space>

@@ -17,10 +17,10 @@ const News: FC<SimplifiableComponentPropsType> = ({ simplified }) => {
     newsCategory,
     itemsCount,
   });
-  const { data: cryptosList } = useGetCryptocurrenciesQuery(100);
+  const { data: cryptosList } = useGetCryptocurrenciesQuery({ limit: 100 });
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (
@@ -28,15 +28,25 @@ const News: FC<SimplifiableComponentPropsType> = ({ simplified }) => {
       {!simplified && (
         <Col span={24}>
           <Select
-          className="news-category-selector"
+            className="news-category-selector"
             showSearch
             placeholder="Select a Cryptocurrency"
             optionFilterProp="children"
             onChange={setNewsCategory}
-            filterOption={(input, option) => (option?.value as string).toLowerCase().includes(input.toLowerCase())}
+            filterOption={(input, option) =>
+              (option?.value as string)
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
           >
-            <Option value="Cryptocurrency" key="Cryptocurrency">All Cryptocurrencies</Option>
-            {cryptosList?.map(crypto => (<Option value={crypto.name} key={crypto.name}>{crypto.name}</Option>))}
+            <Option value="Cryptocurrency" key="Cryptocurrency">
+              All Cryptocurrencies
+            </Option>
+            {cryptosList?.coins?.map((crypto) => (
+              <Option value={crypto.name} key={crypto.name}>
+                {crypto.name}
+              </Option>
+            ))}
           </Select>
         </Col>
       )}
