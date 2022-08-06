@@ -10,13 +10,13 @@ import {
 import "./App.css";
 import { Layout, Space, Typography } from "antd";
 import { Link, Route, Routes } from "react-router-dom";
-import { Content, Header } from "antd/lib/layout/layout";
+import { Content, Footer, Header } from "antd/lib/layout/layout";
 
 const App: FC = () => {
   return (
     <div className="app">
       <Layout>
-        <Header>
+        <Header style={{ padding: 0 }}>
           <Navbar />
         </Header>
         <Content className="main-container">
@@ -31,18 +31,18 @@ const App: FC = () => {
             />
           </Routes>
         </Content>
+        <Footer className="footer">
+          <Typography.Title level={5}>
+            Crypto <br />
+            All rights reserved
+          </Typography.Title>
+          <Space>
+            <Link to="/">Home</Link>
+            <Link to="/exchanges">Exchanges</Link>
+            <Link to="/news">News</Link>
+          </Space>
+        </Footer>
       </Layout>
-      <div className="footer">
-        <Typography.Title level={5}>
-          Crypto <br />
-          All rights reserved
-        </Typography.Title>
-        <Space>
-          <Link to="/">Home</Link>
-          <Link to="/exchanges">Exchanges</Link>
-          <Link to="/news">News</Link>
-        </Space>
-      </div>
     </div>
   );
 };

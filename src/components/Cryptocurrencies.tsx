@@ -1,5 +1,5 @@
 import { ArrowDownOutlined, ArrowUpOutlined, SearchOutlined } from "@ant-design/icons";
-import { Card, Col, Input, Row, Statistic } from "antd";
+import { Card, Col, Input, Row, Statistic, Typography } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -40,6 +40,7 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
         />
         </div>
       )}
+      <Typography.Title level={2}>Popular Cryptocurrencies</Typography.Title>
       <Row gutter={[24, 24]}>
         {filteredCurrencies?.map((cryptocurrency) => (
           <Col xs={24} sm={12} lg={8} key={cryptocurrency.uuid}>

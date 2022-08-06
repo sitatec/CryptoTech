@@ -31,7 +31,6 @@
 
 .navbar-menu {
   width: 100%;
-  display: flex;
   justify-content: flex-end;
 }
 
@@ -314,22 +313,21 @@
   align-items: center;
 }
 
-@media screen and (max-width: 1300px) {
-  .main {
-    margin-left: 50px;
+@media screen and (max-width: 1280px) {
+  .navbar-menu {
+    position: fixed;
+    z-index: 100;
+    width: fit-content;
+    right: 0;
+    background-color: var(--bgSecondary);
   }
-}
 
-@media screen and (max-width: 1170px) {
-  .main {
-    margin-left: 50px;
+  .menu-control-container {
+    display: flex !important;
+    padding-top: 7px;
+    margin-top: -8px !important;
   }
-}
 
-@media screen and (max-width: 1000px) {
-  .main {
-    margin-left: 100px;
-  }
   .stats-container {
     flex-direction: column;
   }
@@ -339,41 +337,19 @@
   .stats-container h2 {
     margin-top: 0px;
   }
+  .main-container, .navbar-content {
+    width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .logo-text {
+    font-size: 1.6em;
+  }
 }
 
 @media screen and (max-width: 800px) {
-  .app {
-    flex-direction: column;
-    overflow: hidden;
-  }
 
-  .navbar {
-    flex: 1;
-  }
-
-  .main {
-    flex: 1;
-    margin-top: 90px;
-    margin-left: 0px;
-    margin-right: 10px;
-  }
-
-  .nav-container {
-    height: 8vh;
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-    background-color: var(--bgSecondary);
-  }
-
-  .menu-control-container {
-    display: block !important;
-  }
-
-  .ant-menu {
-    position: absolute;
-    right: 0px;
-  }
   .home-title {
     font-size: 1.4rem !important;
   }

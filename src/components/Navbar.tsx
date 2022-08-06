@@ -81,7 +81,7 @@ const Navbar: FC = () => {
             theme="dark"
             items={menuItems}
             defaultSelectedKeys={["home"]}
-            mode={screenSize <= 800 ? "vertical" : "horizontal"}
+            mode={screenSize <= 1280 ? "vertical" : "horizontal"}
           />
         )}
       </div>

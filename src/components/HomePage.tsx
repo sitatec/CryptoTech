@@ -1,4 +1,4 @@
-import { Col, Row, Statistic, Typography } from "antd";
+import { Card, Col, Row, Statistic, Typography } from "antd";
 import millify from "millify";
 import { Link } from "react-router-dom";
 import { useGetCryptoStatsQuery } from "../services/cryptoService";
@@ -9,36 +9,56 @@ const Title = Typography.Title;
 
 const HomePage = () => {
   const { data: stats, isLoading } = useGetCryptoStatsQuery();
-  
-  if (isLoading) {
-    return <Loader/>
-  }
 
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <Title level={2} style={{marginTop: "15px"}}>Global Crypto Stats</Title>
-      <Row gutter={[0, 20]}>
-        <Col xs={12} md={8} lg={4}>
-          <Statistic
-            title="Total Cryptocurrencies"
-            value={millify(stats!.totalCoins)}
-          />
+      <Title level={2} style={{ marginTop: "15px" }}>
+        Global Crypto Stats
+      </Title>
+      <Row gutter={[20, 20]}>
+        <Col xs={12} lg={8}>
+          <Card>
+            <Statistic
+              title="Total Cryptocurrencies"
+              value={millify(stats!.totalCoins)}
+            />
+          </Card>
         </Col>
-        <Col  xs={12} md={8} lg={4}>
-          <Statistic title="Total Market CAP" value={millify(stats!.totalMarketCap)} />
+        <Col xs={12} lg={8}>
+          <Card>
+            <Statistic
+              title="Total Market CAP"
+              value={millify(stats!.totalMarketCap)}
+            />
+          </Card>
         </Col>
-        <Col  xs={12} md={8} lg={4}>
-          <Statistic
-            title="Total Markets"
-            value={millify(stats!.totalMarkets)}
-          />
+        <Col xs={12} lg={8}>
+          <Card>
+            <Statistic
+              title="Total Markets"
+              value={millify(stats!.totalMarkets)}
+            />
+          </Card>
         </Col>
-        <Col  xs={12} md={8} lg={4}>
-          <Statistic title="Total Exchanges" value={millify(stats!.totalExchanges)} />
+        <Col xs={12} lg={8}>
+          <Card>
+            <Statistic
+              title="Total Exchanges"
+              value={millify(stats!.totalExchanges)}
+            />
+          </Card>
         </Col>
-        <Col  xs={12} md={8} lg={4}>
-          <Statistic title="Total 24h Volume" value={millify(stats!.total24hVolume)} />
+        <Col xs={12} lg={8}>
+          <Card>
+            <Statistic
+              title="Total 24h Volume"
+              value={millify(stats!.total24hVolume)}
+            />
+          </Card>
         </Col>
       </Row>
       <div className="home-heading-container">
@@ -49,7 +69,7 @@ const HomePage = () => {
           <Link to="/cryptocurrencies">Show More</Link>
         </Title>
       </div>
-      <Cryptocurrencies simplified/>
+      <Cryptocurrencies simplified />
       <div className="home-heading-container">
         <Title level={2} className="home-title">
           Latest Crypto News
