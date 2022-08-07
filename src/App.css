@@ -78,20 +78,20 @@
 .news-card-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.news-card-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .news-card-footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-}
-
-.news-provider-name {
-  margin-left: 8px;
-}
-
-.news-provider-info-container {
-  flex: 0.8;
+  align-items: center;
 }
 
 .news-category-selector {
@@ -283,7 +283,7 @@
 }
 
 .search-bar {
-  width: 500px;
+  width: 400px;
   padding: 6px 20px;
   border-radius: 50px;
   font-size: 1.5em;

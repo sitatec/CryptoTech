@@ -29,15 +29,7 @@ export interface Mention {
   name: string;
 }
 
-export interface Thumbnail2 {
-  contentUrl: string;
-}
-
-export interface Image2 {
-  thumbnail: Thumbnail2;
-}
-
 export interface Provider {
   name: string;
-  image: Image2;
+  image: Image;
 }

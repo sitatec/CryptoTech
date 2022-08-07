@@ -7,7 +7,7 @@ import moment from "moment";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
 import Loader from "./Loader";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const Option = Select.Option;
 
 const News: FC<SimplifiableComponentPropsType> = ({ simplified }) => {
@@ -53,33 +53,40 @@ const News: FC<SimplifiableComponentPropsType> = ({ simplified }) => {
       {cryptoNews?.map((news) => (
         <Col xs={24} sm={12} lg={8} key={news.url}>
           <a href={news.url} target="_blank" rel="noreferrer">
-            <Card hoverable>
-              <div className="news-card-header">
-                <Title level={4}>{news.name}</Title>
-                <img
-                  src={news.image?.thumbnail?.contentUrl || newsImage}
-                  alt={news.name}
-                  height={100}
-                  width={100}
-                />
-              </div>
-              <Text>
-                {news.description.length > 200
-                  ? `${news.description.substring(0, 200)}...`
-                  : news.description}
-              </Text>
+            <Card
+              hoverable
+              style={{ height: "100%" }}
+              bodyStyle={{ height: "100%" }}
+            >
+              <div className="news-card-content">
+                <div>
+                  <div className="news-card-header">
+                    <Title level={4} ellipsis={{ rows: 3 }}>
+                      {news.name}
+                    </Title>
+                    <img
+                      src={news.image?.thumbnail?.contentUrl || newsImage}
+                      alt={news.name}
+                      height={100}
+                      width={100}
+                    />
+                  </div>
+                  <Paragraph ellipsis={{ rows: 3 }}>
+                    {news.description}
+                  </Paragraph>
+                </div>
 
-              <div className="news-card-footer">
-                <div className="news-provider-info-container">
-                  <Avatar
-                    src={news.provider[0]?.image?.thumbnail?.contentUrl}
-                    alt="News Provider"
-                  />
-                  <Text className="news-provider-name">
-                    {news.provider[0]?.name}
+                <div className="news-card-footer">
+                  <div>
+                    <Avatar
+                      src={news.provider[0]?.image?.thumbnail?.contentUrl}
+                      alt="News Provider"
+                    />
+                  </div>
+                  <Text>
+                    {moment(news.datePublished).startOf("s").fromNow()}
                   </Text>
                 </div>
-                <Text>{moment(news.datePublished).startOf("s").fromNow()}</Text>
               </div>
             </Card>
           </a>
