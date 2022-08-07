@@ -16,7 +16,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Title level={2} style={{ marginTop: "15px" }}>
+      <Title level={2} style={{ marginTop: "25px" }}>
         Global Crypto Stats
       </Title>
       <Row gutter={[20, 20]}>

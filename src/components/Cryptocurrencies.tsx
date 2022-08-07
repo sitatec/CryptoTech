@@ -1,15 +1,23 @@
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
+  HeartFilled,
+  HeartOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import { Card, Col, Input, Pagination, Row, Statistic } from "antd";
 import millify from "millify";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
 import { SimplifiableComponentPropsType } from "./commonPropsTypes";
 import Loader from "./Loader";
+import {
+  addToFavorites,
+  FavoriteCryptosStore,
+  removeFromFavorites,
+} from "../core/store";
 
 const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   const [paginationData, setPaginationData] = useState({
@@ -19,12 +27,16 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data, isLoading } = useGetCryptocurrenciesQuery({
     limit: paginationData.itemsCount,
-    offset: (paginationData.currentPage -1) * paginationData.itemsCount,
+    offset: (paginationData.currentPage - 1) * paginationData.itemsCount,
     search: searchQuery,
   });
+  const favoriteCryptos = useSelector(
+    (state: { favoriteCryptos: FavoriteCryptosStore }) => state.favoriteCryptos
+  );
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [paginationData]);
 
   if (isLoading) {
@@ -41,8 +53,11 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
             placeholder="Search Cryptocurrency"
             size="large"
             onChange={(e) => {
-              if(paginationData.currentPage > 1){
-                setPaginationData({itemsCount: paginationData.itemsCount, currentPage: 1})
+              if (paginationData.currentPage > 1) {
+                setPaginationData({
+                  itemsCount: paginationData.itemsCount,
+                  currentPage: 1,
+                });
               }
               setSearchQuery(e.target.value);
             }}
@@ -93,6 +108,23 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
                         fontSize: 17,
                       }}
                     />
+                    {favoriteCryptos.hasOwnProperty(cryptocurrency.uuid) ? (
+                      <HeartFilled
+                        className="favorite-icon"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(removeFromFavorites(cryptocurrency.uuid));
+                        }}
+                      />
+                    ) : (
+                      <HeartOutlined
+                        className="favorite-icon"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(addToFavorites(cryptocurrency.uuid));
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </Card>

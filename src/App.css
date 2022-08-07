@@ -102,11 +102,20 @@
 .crypto-card-body {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
 }
 
 .crypto-card-daily-change {
   margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.favorite-icon{
+  font-size: 20px;
+  margin-top: 20px;
+  color: lightblue
 }
 
 .select-timeperiod {
