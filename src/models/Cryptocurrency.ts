@@ -18,6 +18,7 @@ export interface Cryptocurrency {
   numberOfExchanges: number;
   sparkline: any[];
   allTimeHigh: PriceByPeriod;
+  toSummary: () => CryptocurrencySummary;
 }
 
 export interface Link {
@@ -35,4 +36,10 @@ export interface Supply {
 export interface PriceByPeriod {
   price: number;
   timestamp: number;
+}
+
+export interface CryptocurrencySummary {
+  uuid: string;
+  name: string;
+  iconUrl: string;
 }

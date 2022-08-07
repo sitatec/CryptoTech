@@ -9,6 +9,7 @@ import {
   MoneyCollectOutlined,
   BulbOutlined,
   MenuOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 
 const menuItems: ItemType[] = [
@@ -24,6 +25,7 @@ const menuItems: ItemType[] = [
     key: "exchanges",
   },
   { label: <Link to="/news">news</Link>, icon: <BulbOutlined />, key: "news" },
+  {label: <Link to="/favorite-cryptocurrencies">Favorites</Link>, icon: <HeartOutlined/>, key: "favorite-cryptocurrencies"}
 ];
 
 const Navbar: FC = () => {

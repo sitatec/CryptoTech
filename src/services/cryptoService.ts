@@ -32,7 +32,7 @@ const cryptoService = createApi({
     }),
     getCryptocurrencies: build.query<
       CryptoCurrenciesListResponse,
-      { limit: number; offset?: number; search?: string}
+      { limit: number; offset?: number; search?: string }
     >({
       query: ({ limit, offset = 0, search = "" }) =>
         getRequestOptions(
@@ -44,6 +44,11 @@ const cryptoService = createApi({
         rawResult.data.coins.forEach((coin) => {
           coin.volume24h = (coin as any)["24hVolume"];
           coin.change = Number(coin.change);
+          coin.toSummary = () => ({
+            uuid: coin.uuid,
+            name: coin.name,
+            iconUrl: coin.iconUrl,
+          });
         });
         return rawResult.data;
       },

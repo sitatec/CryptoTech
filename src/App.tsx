@@ -3,6 +3,7 @@ import {
   Cryptocurrencies,
   CryptocurrencyDetails,
   Exchanges,
+  FavoriteCryptocurrencies,
   HomePage,
   Navbar,
   News,
@@ -25,6 +26,10 @@ const App: FC = () => {
             <Route path="/cryptocurrencies" element={<Cryptocurrencies />} />
             <Route path="/exchanges" element={<Exchanges />} />
             <Route path="/news" element={<News />} />
+            <Route
+              path="/favorite-cryptocurrencies"
+              element={<FavoriteCryptocurrencies />}
+            />
             <Route
               path="/cryptocurrencies/:cryptocurrencyId"
               element={<CryptocurrencyDetails />}

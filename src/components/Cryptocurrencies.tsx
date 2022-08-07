@@ -121,7 +121,7 @@ const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
                         className="favorite-icon"
                         onClick={(e) => {
                           e.preventDefault();
-                          dispatch(addToFavorites(cryptocurrency.uuid));
+                          dispatch(addToFavorites(cryptocurrency.toSummary()));
                         }}
                       />
                     )}
