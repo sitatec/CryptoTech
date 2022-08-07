@@ -3,17 +3,12 @@
 :root {
   --bgSecondary: #f8f9fc;
   --lightBlue: #0071bd;
-  --darkBlue: rgb(0, 21, 41);
   --border: #d9d9d9;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-}
-
-.navbar {
-  background-color: var(--darkBlue);
 }
 
 .navbar-content {
@@ -47,6 +42,13 @@
   margin-left: 12px;
   font-size: 1.6em;
   font-weight: 500;
+  color: #1890ff;
+}
+
+.empty-favorites-message{
+  position: absolute;
+  top: 45%;
+  left: 45%;
 }
 
 
@@ -114,7 +116,7 @@
 
 .favorite-icon{
   font-size: 20px;
-  color: lightblue
+  color: #188fffb2
 }
 
 .select-timeperiod {
@@ -333,7 +335,6 @@
     z-index: 100;
     width: fit-content;
     right: 0;
-    background-color: var(--bgSecondary);
   }
 
   .menu-control-container {

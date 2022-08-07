@@ -17,7 +17,7 @@ const App: FC = () => {
   return (
     <div className="app">
       <Layout>
-        <Header style={{ padding: 0 }}>
+        <Header style={{ padding: 0 , backgroundColor:"white"}}>
           <Navbar />
         </Header>
         <Content className="main-container">

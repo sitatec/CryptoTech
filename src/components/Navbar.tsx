@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Avatar, Button, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import CryptoIcon from "../images/cryptocurrency.png";
 import {
@@ -13,24 +13,25 @@ import {
 } from "@ant-design/icons";
 
 const menuItems: ItemType[] = [
-  { label: <Link to="/">Home</Link>, icon: <HomeOutlined />, key: "home" },
+  { label: <Link to="/">Home</Link>, icon: <HomeOutlined />, key: "/" },
   {
     label: <Link to="/cryptocurrencies">Cryptocurrencies</Link>,
     icon: <FundOutlined />,
-    key: "cryptocurrencies",
+    key: "/cryptocurrencies",
   },
   {
     label: <Link to="/exchanges">Exchanges</Link>,
     icon: <MoneyCollectOutlined />,
-    key: "exchanges",
+    key: "/exchanges",
   },
-  { label: <Link to="/news">news</Link>, icon: <BulbOutlined />, key: "news" },
-  {label: <Link to="/favorite-cryptocurrencies">Favorites</Link>, icon: <HeartOutlined/>, key: "favorite-cryptocurrencies"}
+  { label: <Link to="/news">news</Link>, icon: <BulbOutlined />, key: "/news" },
+  {label: <Link to="/favorite-cryptocurrencies">Favorites</Link>, icon: <HeartOutlined/>, key: "/favorite-cryptocurrencies"}
 ];
 
 const Navbar: FC = () => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -64,7 +65,7 @@ const Navbar: FC = () => {
       <div className="navbar-content">
         <div className="logo">
           <Link to="/">
-            <Avatar src={CryptoIcon} size="default" />
+            <Avatar src={CryptoIcon} />
             <span className="logo-text">CryptoTech</span>
           </Link>
         </div>
@@ -80,9 +81,9 @@ const Navbar: FC = () => {
         {activeMenu && (
           <Menu
             className="navbar-menu"
-            theme="dark"
             items={menuItems}
-            defaultSelectedKeys={["home"]}
+            defaultSelectedKeys={["/home"]}
+            selectedKeys={[location.pathname]}
             mode={screenSize <= 1280 ? "vertical" : "horizontal"}
           />
         )}
