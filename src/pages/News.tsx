@@ -1,11 +1,11 @@
 import { Avatar, Card, Col, Row, Select, Typography } from "antd";
 import { useGetCryptoNewsQuery } from "../services/cryptoNewsService";
-import { SimplifiableComponentPropsType } from "./commonPropsTypes";
 import newsImage from "../images/news.png";
 import { FC, useState } from "react";
 import moment from "moment";
 import { useGetCryptocurrenciesQuery } from "../services/cryptoService";
-import Loader from "./Loader";
+import { SimplifiableComponentPropsType } from "./common/propsTypes";
+import { Loader } from "../components";
 
 const { Title, Text, Paragraph } = Typography;
 const Option = Select.Option;

@@ -14,12 +14,12 @@
 .navbar-content {
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 65%;
   margin: auto;
 }
 
 .main-container{
-  width: 60%;
+  width: 65%;
   margin: auto;
   padding-bottom: 50px;
 }
@@ -329,12 +329,19 @@
    align-items: center;
 }
 
+@media screen and (max-width: 1650px) {
+  .main-container, .navbar-content {
+    width: 70%;
+  }
+}
+
 @media screen and (max-width: 1280px) {
   .navbar-menu {
     position: fixed;
     z-index: 100;
     width: fit-content;
     right: 0;
+    top: 64px;
   }
 
   .menu-control-container {
@@ -366,10 +373,10 @@
 @media screen and (max-width: 800px) {
 
   .home-title {
-    font-size: 1.4rem !important;
+    font-size: 1.2rem !important;
   }
   .show-more {
-    font-size: 1.3rem !important;
+    font-size: 1rem !important;
   }
 
   .search-bar {

@@ -12,95 +12,45 @@ import {
 import { Col, InputNumber, Row, Select, Typography } from "antd";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { CryptoChart, Loader } from "../components";
+import { Cryptocurrency } from "../models/Cryptocurrency";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoPriceHistoryQuery,
 } from "../services/cryptoService";
-import LineChart from "./LineChart";
-import Loader from "./Loader";
 
 const { Title, Text } = Typography;
 const Option = Select.Option;
+const timePeriods = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
 
 const CryptocurrencyDetails = () => {
   const { cryptocurrencyId } = useParams();
   const { data, isLoading } = useGetCryptoDetailsQuery(cryptocurrencyId!);
   const [timePeriod, setTimePeriod] = useState("7d");
+  const [samplesCount, setSamplesCount] = useState(20);
   const { data: coinHistory, isLoading: isLoadingPriceHistory } =
     useGetCryptoPriceHistoryQuery({
       cryptoId: cryptocurrencyId!,
       timePeriod,
     });
-  const [samplesCount, setSamplesCount] = useState(20);
+  const cryptocurrency = data!;
+  const [{ stats, additionalStats }, setStats] = useState({
+    stats: [] as StatType[],
+    additionalStats: [] as StatType[],
+  });
 
-  const timePeriods = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
+  useEffect(() => {
+    setStats({
+      stats: getStats(cryptocurrency),
+      additionalStats: getAdditionalStats(cryptocurrency),
+    });
+  }, [cryptocurrency]);
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
-  let cryptocurrency = data!;
-
-  const stats = [
-    {
-      title: "Price to USD",
-      value: `$ ${cryptocurrency.price && millify(cryptocurrency.price)}`,
-      icon: <DollarCircleOutlined />,
-    },
-    { title: "Rank", value: cryptocurrency.rank, icon: <NumberOutlined /> },
-    {
-      title: "24h Volume",
-      value: `$ ${
-        cryptocurrency.volume24h && millify(cryptocurrency.volume24h)
-      }`,
-      icon: <ThunderboltOutlined />,
-    },
-    {
-      title: "Market Cap",
-      value: `$ ${
-        cryptocurrency.marketCap && millify(cryptocurrency.marketCap)
-      }`,
-      icon: <DollarCircleOutlined />,
-    },
-    {
-      title: "All-time-high",
-      value: `$ ${millify(cryptocurrency.allTimeHigh.price)}`,
-      icon: <TrophyOutlined />,
-    },
-  ];
-
-  const genericStats = [
-    {
-      title: "Number Of Markets",
-      value: cryptocurrency.numberOfMarkets,
-      icon: <FundOutlined />,
-    },
-    {
-      title: "Number Of Exchanges",
-      value: cryptocurrency.numberOfExchanges,
-      icon: <MoneyCollectOutlined />,
-    },
-    {
-      title: "Aprroved Supply",
-      value: cryptocurrency.supply.confirmed ? (
-        <CheckOutlined />
-      ) : (
-        <StopOutlined />
-      ),
-      icon: <ExclamationCircleOutlined />,
-    },
-    {
-      title: "Total Supply",
-      value: `$ ${millify(cryptocurrency.supply.total)}`,
-      icon: <ExclamationCircleOutlined />,
-    },
-    {
-      title: "Circulating Supply",
-      value: `$ ${millify(cryptocurrency.supply.circulating)}`,
-      icon: <ExclamationCircleOutlined />,
-    },
-  ];
 
   return (
     <Col className="coin-detail-container">
@@ -133,7 +83,7 @@ const CryptocurrencyDetails = () => {
       {isLoadingPriceHistory ? (
         "Loading Price history ..."
       ) : (
-        <LineChart
+        <CryptoChart
           coinHistory={coinHistory!}
           currentPrice={millify(cryptocurrency.price)}
           coinName={cryptocurrency.name}
@@ -154,15 +104,7 @@ const CryptocurrencyDetails = () => {
               as the base and quote currency, the rank, and trading volume.
             </p>
           </Col>
-          {stats.map(({ icon, title, value }) => (
-            <Col className="coin-stats" key={title}>
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
-          ))}
+          {stats.map(Stat)}
         </Col>
         <Col className="other-stats-info">
           <Col className="coin-value-statistics-heading">
@@ -174,15 +116,7 @@ const CryptocurrencyDetails = () => {
               as the base and quote currency, the rank, and trading volume.
             </p>
           </Col>
-          {genericStats.map(({ icon, title, value }) => (
-            <Col className="coin-stats" key={title}>
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
-          ))}
+          {additionalStats.map(Stat)}
         </Col>
       </Col>
       <Col className="coin-desc-link">
@@ -210,6 +144,94 @@ const CryptocurrencyDetails = () => {
       </Col>
     </Col>
   );
+};
+
+const Stat: FC<StatType> = ({ icon, title, value }) => (
+  <Col className="coin-stats" key={title}>
+    <Col className="coin-stats-name">
+      <Text>{icon}</Text>
+      <Text>{title}</Text>
+    </Col>
+    <Text className="stats">{value}</Text>
+  </Col>
+);
+
+interface StatType {
+  title: string;
+  value: string | number | React.ReactNode;
+  icon: JSX.Element;
+}
+
+const getStats = (cryptocurrency: Cryptocurrency | undefined): StatType[] => {
+  if (cryptocurrency) {
+    return [
+      {
+        title: "Price to USD",
+        value: `$ ${cryptocurrency.price && millify(cryptocurrency.price)}`,
+        icon: <DollarCircleOutlined />,
+      },
+      { title: "Rank", value: cryptocurrency.rank, icon: <NumberOutlined /> },
+      {
+        title: "24h Volume",
+        value: `$ ${
+          cryptocurrency.volume24h && millify(cryptocurrency.volume24h)
+        }`,
+        icon: <ThunderboltOutlined />,
+      },
+      {
+        title: "Market Cap",
+        value: `$ ${
+          cryptocurrency.marketCap && millify(cryptocurrency.marketCap)
+        }`,
+        icon: <DollarCircleOutlined />,
+      },
+      {
+        title: "All-time-high",
+        value: `$ ${millify(cryptocurrency.allTimeHigh.price)}`,
+        icon: <TrophyOutlined />,
+      },
+    ];
+  }
+  return [];
+};
+
+const getAdditionalStats = (
+  cryptocurrency: Cryptocurrency | undefined
+): StatType[] => {
+  if (cryptocurrency) {
+    return [
+      {
+        title: "Number Of Markets",
+        value: cryptocurrency.numberOfMarkets,
+        icon: <FundOutlined />,
+      },
+      {
+        title: "Number Of Exchanges",
+        value: cryptocurrency.numberOfExchanges,
+        icon: <MoneyCollectOutlined />,
+      },
+      {
+        title: "Aprroved Supply",
+        value: cryptocurrency.supply.confirmed ? (
+          <CheckOutlined />
+        ) : (
+          <StopOutlined />
+        ),
+        icon: <ExclamationCircleOutlined />,
+      },
+      {
+        title: "Total Supply",
+        value: `$ ${millify(cryptocurrency.supply.total)}`,
+        icon: <ExclamationCircleOutlined />,
+      },
+      {
+        title: "Circulating Supply",
+        value: `$ ${millify(cryptocurrency.supply.circulating)}`,
+        icon: <ExclamationCircleOutlined />,
+      },
+    ];
+  }
+  return [];
 };
 
 export default CryptocurrencyDetails;

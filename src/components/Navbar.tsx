@@ -11,78 +11,106 @@ import {
   MenuOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
+import {
+  CRYPTOCURRENCIES_ROUTE,
+  EXCHANGES_ROUTE,
+  FAVORITE_CRYPTOCURRENCIES_ROUTE,
+  HOME_ROUTE,
+  NEWS_ROUTE,
+} from "../core/routes";
 
 const menuItems: ItemType[] = [
-  { label: <Link to="/">Home</Link>, icon: <HomeOutlined />, key: "/" },
   {
-    label: <Link to="/cryptocurrencies">Cryptocurrencies</Link>,
+    label: <Link to={HOME_ROUTE}>Home</Link>,
+    icon: <HomeOutlined />,
+    key: HOME_ROUTE,
+  },
+  {
+    label: <Link to={CRYPTOCURRENCIES_ROUTE}>Cryptocurrencies</Link>,
     icon: <FundOutlined />,
-    key: "/cryptocurrencies",
+    key: CRYPTOCURRENCIES_ROUTE,
   },
   {
-    label: <Link to="/exchanges">Exchanges</Link>,
+    label: <Link to={EXCHANGES_ROUTE}>Exchanges</Link>,
     icon: <MoneyCollectOutlined />,
-    key: "/exchanges",
+    key: EXCHANGES_ROUTE,
   },
-  { label: <Link to="/news">news</Link>, icon: <BulbOutlined />, key: "/news" },
-  {label: <Link to="/favorite-cryptocurrencies">Favorites</Link>, icon: <HeartOutlined/>, key: "/favorite-cryptocurrencies"}
+  {
+    label: <Link to={NEWS_ROUTE}>news</Link>,
+    icon: <BulbOutlined />,
+    key: NEWS_ROUTE,
+  },
+  {
+    label: <Link to={FAVORITE_CRYPTOCURRENCIES_ROUTE}>Favorites</Link>,
+    icon: <HeartOutlined />,
+    key: FAVORITE_CRYPTOCURRENCIES_ROUTE,
+  },
 ];
 
-const Navbar: FC = () => {
-  const [activeMenu, setActiveMenu] = useState(true);
-  const [screenSize, setScreenSize] = useState(0);
-  const location = useLocation();
+const useResponsive = (defaultScreenSize = 0, menuVisible = true) => {
+  const [isMenuVisible, setMenuVisible] = useState(menuVisible);
+  const [screenSize, setScreenSize] = useState(defaultScreenSize);
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
-
-    window.addEventListener("resize", handleResize);
-    const closeMobileMenu = (): void => {
-      if (screenSize <= 800) {
-        setActiveMenu(false);
+    const closeSmallDeviceMenu = () => {
+      if (isMenuVisible && screenSize <= 1280) {
+        setMenuVisible(false);
       }
     };
-    window.addEventListener("click", closeMobileMenu);
-
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("click", closeSmallDeviceMenu);
     handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("click", closeMobileMenu);
+      window.removeEventListener("click", closeSmallDeviceMenu);
     };
-  }, [screenSize]);
+  }, [isMenuVisible, screenSize]);
 
   useEffect(() => {
-    if (screenSize <= 800) {
-      setActiveMenu(false);
+    if (screenSize <= 1280) {
+      setMenuVisible(false);
     } else {
-      setActiveMenu(true);
+      setMenuVisible(true);
     }
   }, [screenSize]);
+
+  return [isMenuVisible, setMenuVisible, screenSize, setScreenSize];
+};
+
+const Navbar: FC = () => {
+  const [isMenuVisible, _setMenuVisible, screenSize] = useResponsive();
+  const setMenuVisible = _setMenuVisible as React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+  const location = useLocation();
 
   return (
     <div className="navbar">
       <div className="navbar-content">
         <div className="logo">
-          <Link to="/">
+          <Link to={HOME_ROUTE}>
             <Avatar src={CryptoIcon} />
             <span className="logo-text">CryptoTech</span>
           </Link>
         </div>
         <Button
+          ghost
+          type="primary"
           className="menu-control-container"
           onClick={(e) => {
             e.stopPropagation();
-            setActiveMenu(!activeMenu);
+            setMenuVisible(!isMenuVisible);
           }}
         >
           <MenuOutlined />
         </Button>
-        {activeMenu && (
+        {isMenuVisible && (
           <Menu
             className="navbar-menu"
             items={menuItems}
-            defaultSelectedKeys={["/home"]}
+            defaultSelectedKeys={[HOME_ROUTE]}
             selectedKeys={[location.pathname]}
             mode={screenSize <= 1280 ? "vertical" : "horizontal"}
           />
