@@ -17,17 +17,17 @@ const FavoriteCryptocurrencies = () => {
       ) : (
         <Row gutter={[24, 24]} style={{ marginTop: "30px" }}>
           {Object.values(favoriteCryptocurrencies).map((cryptocurrency) => (
-            <Col xs={24} sm={8} lg={6} key={cryptocurrency.uuid}>
+            <Col xs={24} sm={12} lg={8} key={cryptocurrency.uuid}>
               <Card>
                 <div className="favorite-crypto-card-content">
                   <div className="favorite-crypto-info">
-                    <Typography.Title level={4}>
+                    <Typography.Title level={5}>
                       <img
-                        style={{ marginRight: 8 }}
+                        style={{ marginRight: 10 }}
                         alt={cryptocurrency.name}
                         src={cryptocurrency.iconUrl}
-                        width="40"
-                        height="40"
+                        width="32"
+                        height="32"
                       />
                       {cryptocurrency.name}
                     </Typography.Title>

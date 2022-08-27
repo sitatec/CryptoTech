@@ -5,6 +5,7 @@ import millify from "millify";
 import { FC, useState } from "react";
 import { Loader } from "../components";
 import SearchBar from "../components/SearchBar";
+import { CryptoExchange } from "../models/CryptoExchange";
 import { useGetBitcoinExchangesQuery } from "../services/cryptoService";
 
 interface ExchangesTableDataType {
@@ -25,18 +26,8 @@ const Exchanges: FC = () => {
   if (isLoading) {
     return <Loader />;
   }
-
-  const tableData = exchanges!.map<ExchangesTableDataType>((exchange) => ({
-    key: exchange.uuid,
-    exchanges: {
-      name: exchange.name,
-      iconUrl: exchange.iconUrl,
-      rank: exchange.rank,
-    },
-    price: exchange.price,
-    trade: exchange.volume24h,
-    recommended: exchange.recommended,
-  }));
+  
+  const tableData = exchanges!.map<ExchangesTableDataType>(toTableData);
 
   return (
     <>
@@ -48,6 +39,18 @@ const Exchanges: FC = () => {
     </>
   );
 };
+
+const toTableData = (exchange: CryptoExchange): ExchangesTableDataType => ({
+  key: exchange.uuid,
+  exchanges: {
+    name: exchange.name,
+    iconUrl: exchange.iconUrl,
+    rank: exchange.rank,
+  },
+  price: exchange.price,
+  trade: exchange.volume24h,
+  recommended: exchange.recommended,
+});
 
 const tableColumns: ColumnType<ExchangesTableDataType>[] = [
   {

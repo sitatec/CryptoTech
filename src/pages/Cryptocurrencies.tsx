@@ -24,7 +24,9 @@ const stateSelector = (state: { favoriteCryptos: FavoriteCryptosStore }) => {
   return state.favoriteCryptos;
 };
 
-const Cryptocurrencies = ({ simplified }: SimplifiableComponentPropsType) => {
+const Cryptocurrencies: FC<SimplifiableComponentPropsType> = ({
+  simplified,
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const favoriteCryptos = useSelector(stateSelector);

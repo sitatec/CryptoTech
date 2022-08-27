@@ -1,14 +1,3 @@
-import {
-  CheckOutlined,
-  DollarCircleOutlined,
-  ExclamationCircleOutlined,
-  FundOutlined,
-  MoneyCollectOutlined,
-  NumberOutlined,
-  StopOutlined,
-  ThunderboltOutlined,
-  TrophyOutlined,
-} from "@ant-design/icons";
 import { Col, InputNumber, Row, Select, Typography } from "antd";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
@@ -20,6 +9,17 @@ import {
   useGetCryptoDetailsQuery,
   useGetCryptoPriceHistoryQuery,
 } from "../services/cryptoService";
+import {
+  CheckOutlined,
+  DollarCircleOutlined,
+  ExclamationCircleOutlined,
+  FundOutlined,
+  MoneyCollectOutlined,
+  NumberOutlined,
+  StopOutlined,
+  ThunderboltOutlined,
+  TrophyOutlined,
+} from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 const Option = Select.Option;
